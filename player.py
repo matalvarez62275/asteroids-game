@@ -48,5 +48,7 @@ class Player(CircleShape):
                 self.cooldown = PLAYER_SHOOT_COOLDOWN
             
     def shoot(self):
-        shot = Shot(self.position.x, self.position.y)   # type: ignore
-        shot.velocity = pygame.Vector2(0, 1).rotate(self.rotation) * PLAYER_SHOOT_SPEED
+        forward = pygame.Vector2(0, 1).rotate(self.rotation)
+        nose = self.position + forward * self.radius
+        shot = Shot(nose.x, nose.y)   # type: ignore
+        shot.velocity = forward * PLAYER_SHOOT_SPEED
