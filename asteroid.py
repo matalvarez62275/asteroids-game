@@ -5,8 +5,8 @@ from circleshape import CircleShape
 from constants import ASTEROID_MIN_RADIUS, ASTEROID_MAX_RADIUS
 
 class Asteroid(CircleShape):
-    def __init__(self, x: float, y: float, radius: float):
-        super().__init__(x, y, radius)
+    def __init__(self, position: pygame.Vector2, radius: float):
+        super().__init__(position, radius)
         
     def draw(self, screen: pygame.Surface):
         pygame.draw.circle(screen, "white", self.position, self.radius, 2)
@@ -22,7 +22,7 @@ class Asteroid(CircleShape):
 
         random_angle = uniform(20, 50)
         new_radius = self.radius - ASTEROID_MIN_RADIUS
-        child_asteroid_1 = Asteroid(self.position.x, self.position.y, new_radius)   # type: ignore
+        child_asteroid_1 = Asteroid(self.position.copy(), new_radius)   # type: ignore
         child_asteroid_1.velocity = self.velocity.rotate(random_angle) * 1.2
-        child_asteroid_2 = Asteroid(self.position.x, self.position.y, new_radius)   # type: ignore
+        child_asteroid_2 = Asteroid(self.position.copy(), new_radius)   # type: ignore
         child_asteroid_2.velocity = self.velocity.rotate(-random_angle) * 1.2

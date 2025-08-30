@@ -4,13 +4,13 @@ from typing import Optional, Tuple
 class CircleShape(pygame.sprite.Sprite):
     containers: Optional[Tuple[pygame.sprite.Group, ...]] = None
 
-    def __init__(self, x: float, y: float, radius: float):
+    def __init__(self, position: pygame.Vector2, radius: float):
         if self.containers is not None:
             super().__init__(*self.containers)
         else:
             super().__init__()
             
-        self.position = pygame.Vector2(x, y)
+        self.position = position
         self.velocity = pygame.Vector2(0, 0)
         self.radius = radius
 
