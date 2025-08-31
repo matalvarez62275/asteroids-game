@@ -5,14 +5,36 @@ from src.entities.circleshape import CircleShape
 from src.settings import ASTEROID_MIN_RADIUS
 
 class Asteroid(CircleShape):
+    asteroid_image: pygame.Surface = None  # type: ignore
+
     def __init__(self, position: pygame.Vector2, radius: float):
         super().__init__(position, radius)
         
+        if Asteroid.asteroid_image is None:
+            Asteroid.asteroid_image = pygame.image.load("assets/asteroid_base.png").convert_alpha()
+        
+        match radius/ASTEROID_MIN_RADIUS:
+            case 1:
+                self.image = pygame.transform.scale(Asteroid.asteroid_image,
+                                                    (ASTEROID_MIN_RADIUS * 5,
+                                                     ASTEROID_MIN_RADIUS * 5))
+            case 2:
+                self.image = pygame.transform.scale(Asteroid.asteroid_image,
+                                                    (ASTEROID_MIN_RADIUS * 10,
+                                                     ASTEROID_MIN_RADIUS * 10))
+            case 3:
+                self.image = pygame.transform.scale(Asteroid.asteroid_image,
+                                                    (ASTEROID_MIN_RADIUS * 15,
+                                                     ASTEROID_MIN_RADIUS * 15))
+                
+        self.rect = self.image.get_rect(center=position)
+        
     def draw(self, screen: pygame.Surface):
-        pygame.draw.circle(screen, "white", self.position, self.radius, 2)
+        screen.blit(self.image, self.rect)
         
     def update(self, dt: float):
         self.position += self.velocity * dt
+        self.rect.center = (int(self.position.x), int(self.position.y))
         
     def split(self):
         self.kill()

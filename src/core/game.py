@@ -1,6 +1,7 @@
 import pygame
 
 from src.entities.shot import Shot
+from src.entities.heart import Heart
 from src.entities.player import Player
 from src.entities.asteroid import Asteroid
 from src.entities.asteroidfield import AsteroidField
@@ -14,9 +15,16 @@ class Game:
         self.screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
         self.clock = pygame.time.Clock()
 
-        # Load assets
-        self.heart_img = pygame.image.load("assets/heart.png").convert_alpha()
-        self.heart_img = pygame.transform.scale(self.heart_img, (40, 40))
+        # self.asteroid_base_img = pygame.image.load("assets/asteroid_base.png").convert_alpha()
+        # asteroid_explosion_sheet = pygame.image.load("assets/asteroid_explode.png").convert_alpha()
+        
+        # self.asteroid_explosion_frames = []
+        # asteroid_width = self.asteroid_base_img.get_width()
+        # asteroid_height = self.asteroid_base_img.get_height()
+        # for frame in range(asteroid_explosion_sheet.get_width() // asteroid_width):
+        #     rect = pygame.Rect(frame * asteroid_width, 0, asteroid_width, asteroid_height)
+        #     image = asteroid_explosion_sheet.subsurface(rect).copy()
+        #     self.asteroid_explosion_frames.append(image)
 
         self.font_regular = pygame.font.Font("assets/fonts/dogica.ttf", FONT_SIZE_REGULAR)
         self.font_large_bold = pygame.font.Font("assets/fonts/dogicabold.ttf", FONT_SIZE_LARGE)
@@ -31,6 +39,7 @@ class Game:
         AsteroidField.containers = (self.updatable, )
         Asteroid.containers = (self.asteroids, self.updatable, self.drawable)
         Player.containers = (self.updatable, self.drawable)
+        Heart.containers = (self.drawable, )
         Shot.containers = (self.shots, self.updatable, self.drawable)
 
         # Create game objects
@@ -95,8 +104,9 @@ class Game:
                 sprite.draw(self.screen)
                 
             for i in range(self.player.lives):
-                life_rect = self.heart_img.get_rect(center=(SCREEN_WIDTH - 40 - i * 40, 25))
-                self.screen.blit(self.heart_img, life_rect)
+                heart = Heart(pygame.Vector2(SCREEN_WIDTH - 40 - i * 40, 25))
+                # life_rect = self.heart_img.get_rect(center=(SCREEN_WIDTH - 40 - i * 40, 25))
+                # self.screen.blit(self.heart_img, life_rect)
                 
             score_text = self.font_regular.render(f"Score: {self.score}", True, "green")
             self.screen.blit(score_text, (10, 10))
