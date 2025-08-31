@@ -1,20 +1,43 @@
 import pygame
-from src.core.events import handle_player_input
+
+from src.entities.shot import Shot
+from src.entities.score import Score
+from src.entities.player import Player
+from src.entities.asteroid import Asteroid
 from src.entities.textdisplayable import TextDisplayable
+from src.entities.asteroidfield import AsteroidField
+from src.core.events import handle_player_input
 from src.settings import SCREEN_WIDTH, SCREEN_HEIGHT, ASTEROID_MIN_RADIUS, FPS
 
 class Game:
-    def __init__(self, player, asteroid_field, score, heart_img, updatable, drawable, asteroids, shots):
+    def __init__(self):
+        pygame.init()
+
         self.screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
         self.clock = pygame.time.Clock()
-        self.player = player
-        self.asteroid_field = asteroid_field
-        self.score = score
-        self.heart_img = heart_img
-        self.updatable = updatable
-        self.drawable = drawable
-        self.asteroids = asteroids
-        self.shots = shots
+
+        # Load assets
+        self.heart_img = pygame.image.load("assets/heart.png").convert_alpha()
+        self.heart_img = pygame.transform.scale(self.heart_img, (40, 40))
+
+        # Sprite groups
+        self.updatable = pygame.sprite.Group()
+        self.drawable = pygame.sprite.Group()
+        self.asteroids = pygame.sprite.Group()
+        self.shots = pygame.sprite.Group()
+
+        # Set containers for sprite classes
+        AsteroidField.containers = (self.updatable, )
+        Asteroid.containers = (self.asteroids, self.updatable, self.drawable)
+        Player.containers = (self.updatable, self.drawable)
+        Shot.containers = (self.shots, self.updatable, self.drawable)
+        Score.containers = (self.drawable, )
+
+        # Create game objects
+        self.asteroid_field = AsteroidField()
+        self.player = Player(pygame.Vector2(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2))
+        self.score = Score()
+        
         self.running = True
 
     def run(self):
