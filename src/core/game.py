@@ -100,13 +100,11 @@ class Game:
         self.screen.fill("black")
         
         if self.player.lives > 0:
-            for sprite in self.drawable:
-                sprite.draw(self.screen)
-                
             for i in range(self.player.lives):
                 heart = Heart(pygame.Vector2(SCREEN_WIDTH - 40 - i * 40, 25))
-                # life_rect = self.heart_img.get_rect(center=(SCREEN_WIDTH - 40 - i * 40, 25))
-                # self.screen.blit(self.heart_img, life_rect)
+            
+            # All drawable sprites MUST have an 'image' attribute and a 'rect' attribute
+            self.drawable.draw(self.screen)
                 
             score_text = self.font_regular.render(f"Score: {self.score}", True, "green")
             self.screen.blit(score_text, (10, 10))

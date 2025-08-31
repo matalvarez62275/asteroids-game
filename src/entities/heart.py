@@ -12,11 +12,9 @@ class Heart(pygame.sprite.Sprite):
             super().__init__()
 
         if Heart.heart_image is None:
-            heart_image = pygame.Surface = pygame.image.load("assets/heart.png").convert_alpha()
+            heart_image = pygame.image.load("assets/heart.png").convert_alpha()
             Heart.heart_image = pygame.transform.scale(heart_image, (40, 40))
         
         self.image = Heart.heart_image
         self.rect = self.image.get_rect(center=position)
         
-    def draw(self, screen: pygame.Surface) -> None:
-        screen.blit(self.image, self.rect)

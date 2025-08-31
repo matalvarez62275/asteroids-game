@@ -2,14 +2,23 @@ import pygame
 
 from src.entities.shot import Shot
 from src.entities.circleshape import CircleShape
-from src.settings import PLAYER_RADIUS, PLAYER_TURN_SPEED, PLAYER_SPEED, PLAYER_SHOOT_SPEED, PLAYER_SHOOT_COOLDOWN
+from src.settings import PLAYER_RADIUS, PLAYER_TURN_SPEED, PLAYER_SPEED, PLAYER_SHOOT_SPEED, PLAYER_SHOOT_COOLDOWN, PLAYER_STARTING_LIVES
 
 class Player(CircleShape):
+    player_image: pygame.Surface = None  # type: ignore
+    
     def __init__(self, position: pygame.Vector2):
-        
         super().__init__(position, PLAYER_RADIUS)
         
-        self.lives = 3
+        if Player.player_image is None:
+            player_image = pygame.image.load("assets/ship.png").convert_alpha()
+            Player.player_image = pygame.transform.scale(player_image,
+                                                         (PLAYER_RADIUS * 4, PLAYER_RADIUS * 4))    # TODO: remove hardocoding
+            
+        self.image = Player.player_image
+        self.rect = self.image.get_rect(center=position)
+        
+        self.lives = PLAYER_STARTING_LIVES
         self.rotation = 180
         self.cooldown = PLAYER_SHOOT_COOLDOWN
         
@@ -20,22 +29,21 @@ class Player(CircleShape):
         b = self.position - forward * self.radius - right
         c = self.position - forward * self.radius + right
         return [a, b, c]
-
-    def draw(self, screen: pygame.Surface) -> None:
-        pygame.draw.polygon(screen, "skyblue", self.triangle(), 2)
         
     def rotate(self, dt: float):
         self.rotation += PLAYER_TURN_SPEED * dt
+        self.image = pygame.transform.rotate(Player.player_image, 180 - self.rotation)
+        self.rect = self.image.get_rect(center=self.position)
         
     def move(self, dt: float):
         forward = pygame.Vector2(0, 1).rotate(self.rotation)
         self.position += forward * PLAYER_SPEED * dt
+        self.rect.center = self.position  # type: ignore
         
     def update(self, dt: float):
         self.cooldown -= dt
             
     def shoot(self):
         forward = pygame.Vector2(0, 1).rotate(self.rotation)
-        nose = self.position + forward * self.radius
-        shot = Shot(nose)   # type: ignore
+        shot = Shot(self.position + forward * self.radius, self.rotation)
         shot.velocity = forward * PLAYER_SHOOT_SPEED

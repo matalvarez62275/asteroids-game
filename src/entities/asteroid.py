@@ -29,9 +29,6 @@ class Asteroid(CircleShape):
                 
         self.rect = self.image.get_rect(center=position)
         
-    def draw(self, screen: pygame.Surface):
-        screen.blit(self.image, self.rect)
-        
     def update(self, dt: float):
         self.position += self.velocity * dt
         self.rect.center = (int(self.position.x), int(self.position.y))
