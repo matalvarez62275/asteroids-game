@@ -44,8 +44,15 @@ class Game:
 
         # Create game objects
         self.asteroid_field = AsteroidField()
-        self.player = Player(pygame.Vector2(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2))
+        self.player = Player()
         self.score = 0
+        
+        self.hearts = [
+            Heart(pygame.Vector2(SCREEN_WIDTH - 40 - i * 40, 25))
+            for i in range(self.player.lives)
+        ]
+        for heart in self.hearts:
+            self.drawable.add(heart)
         
         self.running = True
 
@@ -71,6 +78,13 @@ class Game:
                 if self.player.lives > 0:
                     self.player.lives -= 1
                     asteroid.split()
+                    if self.hearts:
+                        lost_heart = self.hearts.pop()
+                        lost_heart.kill()
+                    if self.player.lives <= 0:
+                        self.player.kill()
+                        break
+                        
             for shot in self.shots:
                 if asteroid.collides_with(shot):
                     shot.kill()
@@ -87,21 +101,25 @@ class Game:
         # Handle restart
         keys = pygame.key.get_pressed()
         if self.player.lives <= 0 and keys[pygame.K_r]:
-            self.player.lives = 3
-            self.player.position = pygame.Vector2(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2)
-            self.player.rotation = 180
+            self.player = Player(pygame.Vector2(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2))
             self.score = 0
             for asteroid in self.asteroids:
                 asteroid.kill()
             for shot in self.shots:
                 shot.kill()
+            
+            # Restore hearts
+            self.hearts.clear()
+            for i in range(self.player.lives):
+                heart = Heart(pygame.Vector2(SCREEN_WIDTH - 40 - i * 40, 25))
+                self.hearts.append(heart)
 
     def draw(self):
         self.screen.fill("black")
         
         if self.player.lives > 0:
-            for i in range(self.player.lives):
-                heart = Heart(pygame.Vector2(SCREEN_WIDTH - 40 - i * 40, 25))
+            for i, heart in enumerate(self.hearts):
+                heart.visible = i < self.player.lives 
             
             # All drawable sprites MUST have an 'image' attribute and a 'rect' attribute
             self.drawable.draw(self.screen)

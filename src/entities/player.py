@@ -2,12 +2,12 @@ import pygame
 
 from src.entities.shot import Shot
 from src.entities.circleshape import CircleShape
-from src.settings import PLAYER_RADIUS, PLAYER_TURN_SPEED, PLAYER_SPEED, PLAYER_SHOOT_SPEED, PLAYER_SHOOT_COOLDOWN, PLAYER_STARTING_LIVES
+from src.settings import PLAYER_RADIUS, PLAYER_TURN_SPEED, PLAYER_SPEED, PLAYER_SHOOT_SPEED, PLAYER_SHOOT_COOLDOWN, PLAYER_STARTING_LIVES, SCREEN_WIDTH, SCREEN_HEIGHT
 
 class Player(CircleShape):
     player_image: pygame.Surface = None  # type: ignore
     
-    def __init__(self, position: pygame.Vector2):
+    def __init__(self, position: pygame.Vector2 = pygame.Vector2(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2)):
         super().__init__(position, PLAYER_RADIUS)
         
         if Player.player_image is None:
