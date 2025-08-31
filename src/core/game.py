@@ -1,7 +1,6 @@
 import pygame
 
 from src.entities.shot import Shot
-from src.entities.score import Score
 from src.entities.player import Player
 from src.entities.asteroid import Asteroid
 from src.entities.asteroidfield import AsteroidField
@@ -33,12 +32,11 @@ class Game:
         Asteroid.containers = (self.asteroids, self.updatable, self.drawable)
         Player.containers = (self.updatable, self.drawable)
         Shot.containers = (self.shots, self.updatable, self.drawable)
-        Score.containers = (self.drawable, )
 
         # Create game objects
         self.asteroid_field = AsteroidField()
         self.player = Player(pygame.Vector2(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2))
-        self.score = Score(self.font_regular)
+        self.score = 0
         
         self.running = True
 
@@ -70,11 +68,11 @@ class Game:
                     asteroid.split()
                     match asteroid.radius / ASTEROID_MIN_RADIUS:
                         case 1:
-                            self.score.add_points(15)
+                            self.score += 15
                         case 2:
-                            self.score.add_points(10)
+                            self.score += 10
                         case 3:
-                            self.score.add_points(5)
+                            self.score += 5
                     break
 
         # Handle restart
@@ -83,7 +81,7 @@ class Game:
             self.player.lives = 3
             self.player.position = pygame.Vector2(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2)
             self.player.rotation = 180
-            self.score.points = 0
+            self.score = 0
             for asteroid in self.asteroids:
                 asteroid.kill()
             for shot in self.shots:
@@ -91,19 +89,30 @@ class Game:
 
     def draw(self):
         self.screen.fill("black")
+        
         if self.player.lives > 0:
             for sprite in self.drawable:
                 sprite.draw(self.screen)
+                
             for i in range(self.player.lives):
                 life_rect = self.heart_img.get_rect(center=(SCREEN_WIDTH - 40 - i * 40, 25))
                 self.screen.blit(self.heart_img, life_rect)
+                
+            score_text = self.font_regular.render(f"Score: {self.score}", True, "green")
+            self.screen.blit(score_text, (10, 10))
+            
         else:
             game_over_text = self.font_large_bold.render("G A M E  O V E R", True, "red")
-            game_over_rect = game_over_text.get_rect(center=(SCREEN_WIDTH/2, SCREEN_HEIGHT/2 - 150))
+            game_over_rect = game_over_text.get_rect(center=(SCREEN_WIDTH/2, SCREEN_HEIGHT/2 - 170))
             
-            restart_text = self.font_regular.render("Press  R  to restart", True, "yellow")
-            restart_rect = restart_text.get_rect(center=(SCREEN_WIDTH/2, SCREEN_HEIGHT/2))
+            restart_text = self.font_regular.render("Press  R  to restart", True, "white")
+            restart_rect = restart_text.get_rect(center=(SCREEN_WIDTH/2, SCREEN_HEIGHT/2 - 100))
             
-            self.screen.blits([(game_over_text, game_over_rect), (restart_text, restart_rect)])
+            score_text = self.font_regular.render(f"Score: {self.score}", True, "green")
+            score_rect = score_text.get_rect(center=(SCREEN_WIDTH/2, SCREEN_HEIGHT/2 + 50))
+            
+            self.screen.blits([(game_over_text, game_over_rect),
+                               (restart_text, restart_rect),
+                               (score_text, score_rect)])
             
         pygame.display.flip()
