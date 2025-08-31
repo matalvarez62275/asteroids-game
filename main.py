@@ -1,11 +1,14 @@
 import sys
 import pygame
+from pygame import Vector2
 
 from shot import Shot
 from score import Score
 from player import Player
 from asteroid import Asteroid
+from imagesprite import ImageSprite
 from asteroidfield import AsteroidField
+from textdisplayable import TextDisplayable 
 from constants import SCREEN_WIDTH, SCREEN_HEIGHT, FPS, ASTEROID_MIN_RADIUS
 
 def main():
@@ -31,6 +34,9 @@ def main():
     Score.containers = (drawable, )
     score = Score()
     
+    heart_img = pygame.image.load("heart.png").convert_alpha()
+    heart_img = pygame.transform.scale(heart_img, (40, 40)) 
+    
     while(1):
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -40,9 +46,10 @@ def main():
         
         for asteroid in asteroids:
             if asteroid.collides_with(player):
-                print("Game Over!")
-                sys.exit()
-            
+                if player.lives > 0:
+                    player.lives -= 1
+                    asteroid.split()
+                         
             for shot in shots:
                 if asteroid.collides_with(shot):
                     shot.kill()
@@ -58,8 +65,28 @@ def main():
                 
         screen.fill("black")
             
-        for sprite in drawable:
-            sprite.draw(screen)
+        if player.lives > 0:
+            for sprite in drawable:
+                sprite.draw(screen)
+            for i in range(player.lives):
+                life_rect = heart_img.get_rect(center=(SCREEN_WIDTH - 40 - i * 40, 25))
+                screen.blit(heart_img, life_rect) 
+        else:
+            game_over_text = TextDisplayable("GAME OVER", font_size=72, color="red")
+            game_over_text.draw(screen, (SCREEN_WIDTH/2, SCREEN_HEIGHT/2 - 100), center = True)
+            restart_text = TextDisplayable("Press R to Restart", font_size=36, color="yellow")
+            restart_text.draw(screen, (SCREEN_WIDTH/2, SCREEN_HEIGHT/2 - 50), center = True)
+            score.draw(screen)
+            if  pygame.key.get_pressed()[pygame.K_r]:
+                player.lives = 3
+                player.position = pygame.Vector2(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2)
+                player.rotation = 180
+                score.points = 0
+                for asteroid in asteroids:
+                    asteroid.kill()
+                for shot in shots:
+                    shot.kill()
+                
         
         pygame.display.flip()
         

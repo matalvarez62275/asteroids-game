@@ -9,6 +9,7 @@ class Player(CircleShape):
         
         super().__init__(position, PLAYER_RADIUS)
         
+        self.lives = 3
         self.rotation = 180
         self.cooldown = PLAYER_SHOOT_COOLDOWN
         

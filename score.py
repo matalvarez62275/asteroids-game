@@ -10,11 +10,11 @@ class Score(pygame.sprite.Sprite):
         else:
             super().__init__()
         self.font = pygame.font.Font(None, 36)
-        self.score = 0
+        self.points = 0
 
     def add_points(self, points: int) -> None:
-        self.score += points
+        self.points += points
 
     def draw(self, screen: pygame.Surface) -> None:
-        score_text = self.font.render(f"Score: {self.score}", True, "green")
+        score_text = self.font.render(f"Score: {self.points}", True, "green")
         screen.blit(score_text, (10, 10))
