@@ -2,8 +2,8 @@ import pygame
 import random
 from typing import Optional, Tuple
 
-from asteroid import Asteroid
-from constants import *
+from src.entities.asteroid import Asteroid
+from src.settings import SCREEN_WIDTH, SCREEN_HEIGHT, ASTEROID_MIN_RADIUS, ASTEROID_MAX_RADIUS, ASTEROID_SPAWN_RATE, ASTEROID_KINDS
 
 class AsteroidField(pygame.sprite.Sprite):
     containers: Optional[Tuple[pygame.sprite.Group, ...]] = None

@@ -1,8 +1,8 @@
 import pygame
 
-from shot import Shot
-from circleshape import CircleShape
-from constants import PLAYER_RADIUS, PLAYER_TURN_SPEED, PLAYER_SPEED, PLAYER_SHOOT_SPEED, PLAYER_SHOOT_COOLDOWN
+from src.entities.shot import Shot
+from src.entities.circleshape import CircleShape
+from src.settings import PLAYER_RADIUS, PLAYER_TURN_SPEED, PLAYER_SPEED, PLAYER_SHOOT_SPEED, PLAYER_SHOOT_COOLDOWN
 
 class Player(CircleShape):
     def __init__(self, position: pygame.Vector2):

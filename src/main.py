@@ -2,14 +2,14 @@ import sys
 import pygame
 from pygame import Vector2
 
-from shot import Shot
-from score import Score
-from player import Player
-from asteroid import Asteroid
-from imagesprite import ImageSprite
-from asteroidfield import AsteroidField
-from textdisplayable import TextDisplayable 
-from constants import SCREEN_WIDTH, SCREEN_HEIGHT, FPS, ASTEROID_MIN_RADIUS
+from src.entities.shot import Shot
+from src.entities.score import Score
+from src.entities.player import Player
+from src.entities.asteroid import Asteroid
+from src.entities.imagesprite import ImageSprite
+from src.entities.asteroidfield import AsteroidField
+from src.entities.textdisplayable import TextDisplayable 
+from src.settings import SCREEN_WIDTH, SCREEN_HEIGHT, FPS, ASTEROID_MIN_RADIUS
 
 def main():
     print("Starting Asteroids!")
@@ -34,7 +34,7 @@ def main():
     Score.containers = (drawable, )
     score = Score()
     
-    heart_img = pygame.image.load("heart.png").convert_alpha()
+    heart_img = pygame.image.load("assets/heart.png").convert_alpha()
     heart_img = pygame.transform.scale(heart_img, (40, 40)) 
     
     while(1):
