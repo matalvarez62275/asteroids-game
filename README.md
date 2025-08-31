@@ -1,4 +1,6 @@
-Extending the Project
+### Asteroids
+
+Roadmap:
 [x] Add a scoring system
 [ ] Implement multiple lives and respawning
     [x] Display lives
