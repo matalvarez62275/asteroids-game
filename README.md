@@ -2,7 +2,7 @@
 
 Roadmap:
 [x] Add a scoring system
-[ ] Implement multiple lives and respawning
+[x] Implement multiple lives and respawning
     [x] Display lives
     [ ] Heart power-up
 [ ] Add an explosion effect for the asteroids

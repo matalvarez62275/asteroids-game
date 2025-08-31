@@ -4,12 +4,12 @@ from typing import Optional, Tuple
 class Score(pygame.sprite.Sprite):
     containers: Optional[Tuple[pygame.sprite.Group, ...]] = None
 
-    def __init__(self):
+    def __init__(self, font: pygame.font.Font):
         if self.containers is not None:
             super().__init__(*self.containers)
         else:
             super().__init__()
-        self.font = pygame.font.Font(None, 36)
+        self.font = font
         self.points = 0
 
     def add_points(self, points: int) -> None:
