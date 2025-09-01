@@ -7,15 +7,11 @@ class Shot(CircleShape):
     shot_image: pygame.Surface = None  # type: ignore
     
     def __init__(self, position: pygame.Vector2, rotation: float):
-        super().__init__(position, SHOT_RADIUS)
-        
         if Shot.shot_image is None:
             shot_image = pygame.image.load("assets/shot.png").convert_alpha()
-            Shot.shot_image = pygame.transform.scale(shot_image,
-                                                     (SHOT_RADIUS * 4, SHOT_RADIUS * 4))    # TODO: remove hardocoding
+            Shot.shot_image = pygame.transform.scale(shot_image, (int(SHOT_RADIUS * 4), int(SHOT_RADIUS * 4)))
  
-        self.image = Shot.shot_image
-        self.rect = self.image.get_rect(center=position)
+        super().__init__(position, SHOT_RADIUS, Shot.shot_image)
         self.rotation = rotation
         
     def update(self, dt: float):

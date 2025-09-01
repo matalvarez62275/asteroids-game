@@ -1,21 +1,14 @@
 import pygame
 from typing import Optional, Tuple
 
-class CircleShape(pygame.sprite.Sprite):
-    containers: Optional[Tuple[pygame.sprite.Group, ...]] = None
+from src.entities.imagesprite import ImageSprite
 
-    def __init__(self, position: pygame.Vector2, radius: float):
-        if self.containers is not None:
-            super().__init__(*self.containers)
-        else:
-            super().__init__()
-            
+class CircleShape(ImageSprite):
+    def __init__(self, position: pygame.Vector2, radius: float, image: pygame.Surface):
+        super().__init__(position, image)
         self.position = position
         self.velocity = pygame.Vector2(0, 0)
         self.radius = radius
-
-    def draw(self, screen: pygame.Surface):
-        pass
 
     def update(self, dt: int):
         pass

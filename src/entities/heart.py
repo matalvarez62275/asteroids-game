@@ -8,8 +8,9 @@ class Heart(ImageSprite):
 
     def __init__(self, position: pygame.Vector2):
         if Heart.heart_image is None:
-            Heart.heart_image = pygame.image.load("assets/heart.png").convert_alpha()
+            heart_image = pygame.image.load("assets/heart.png").convert_alpha()
+            Heart.heart_image = pygame.transform.scale(heart_image, (40, 40))  # TODO: remove hardocoding
 
-        super().__init__(position, Heart.heart_image, scale=(40, 40))
+        super().__init__(position, Heart.heart_image)
         
         self.visible = True

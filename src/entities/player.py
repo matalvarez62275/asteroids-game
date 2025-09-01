@@ -8,15 +8,11 @@ class Player(CircleShape):
     player_image: pygame.Surface = None  # type: ignore
     
     def __init__(self, position: pygame.Vector2 = pygame.Vector2(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2)):
-        super().__init__(position, PLAYER_RADIUS)
-        
         if Player.player_image is None:
             player_image = pygame.image.load("assets/ship.png").convert_alpha()
-            Player.player_image = pygame.transform.scale(player_image,
-                                                         (PLAYER_RADIUS * 4, PLAYER_RADIUS * 4))    # TODO: remove hardocoding
+            Player.player_image = pygame.transform.scale(player_image, (int(PLAYER_RADIUS * 4), int(PLAYER_RADIUS * 4)))  # TODO: remove hardocoding
             
-        self.image = Player.player_image
-        self.rect = self.image.get_rect(center=position)
+        super().__init__(position, PLAYER_RADIUS, Player.player_image)
         
         self.lives = PLAYER_STARTING_LIVES
         self.rotation = 180
