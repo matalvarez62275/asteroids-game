@@ -1,6 +1,7 @@
 import pygame
 from random import uniform
 
+from src.entities.explosion import Explosion
 from src.entities.circleshape import CircleShape
 from src.settings import ASTEROID_MIN_RADIUS
 
@@ -14,8 +15,7 @@ class Asteroid(CircleShape):
         
         super().__init__(position, radius, Asteroid.asteroid_image)
         self.image = pygame.transform.scale(Asteroid.asteroid_image,
-                                            (int(radius * 5),
-                                             int(radius * 5)))
+                                            (int(radius * 5), int(radius * 5)))#TODO: hardcoded
         self.rect = self.image.get_rect(center=position)
         
     def update(self, dt: float):
@@ -24,6 +24,7 @@ class Asteroid(CircleShape):
         
     def split(self):
         self.kill()
+        Explosion(self.position.copy(), self.radius) # type: ignore
         
         if self.radius <= ASTEROID_MIN_RADIUS:
             return

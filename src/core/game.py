@@ -4,6 +4,7 @@ from src.entities.shot import Shot
 from src.entities.heart import Heart
 from src.entities.player import Player
 from src.entities.asteroid import Asteroid
+from src.entities.explosion import Explosion
 from src.entities.asteroidfield import AsteroidField
 from src.core.events import handle_player_input
 from src.settings import SCREEN_WIDTH, SCREEN_HEIGHT, ASTEROID_MIN_RADIUS, FPS, FONT_SIZE_REGULAR, FONT_SIZE_LARGE
@@ -14,17 +15,6 @@ class Game:
 
         self.screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
         self.clock = pygame.time.Clock()
-
-        # self.asteroid_base_img = pygame.image.load("assets/asteroid_base.png").convert_alpha()
-        # asteroid_explosion_sheet = pygame.image.load("assets/asteroid_explode.png").convert_alpha()
-        
-        # self.asteroid_explosion_frames = []
-        # asteroid_width = self.asteroid_base_img.get_width()
-        # asteroid_height = self.asteroid_base_img.get_height()
-        # for frame in range(asteroid_explosion_sheet.get_width() // asteroid_width):
-        #     rect = pygame.Rect(frame * asteroid_width, 0, asteroid_width, asteroid_height)
-        #     image = asteroid_explosion_sheet.subsurface(rect).copy()
-        #     self.asteroid_explosion_frames.append(image)
 
         self.font_regular = pygame.font.Font("assets/fonts/dogica.ttf", FONT_SIZE_REGULAR)
         self.font_large_bold = pygame.font.Font("assets/fonts/dogicabold.ttf", FONT_SIZE_LARGE)
@@ -38,6 +28,7 @@ class Game:
         # Set containers for sprite classes
         AsteroidField.containers = (self.updatable, )
         Asteroid.containers = (self.asteroids, self.updatable, self.drawable)
+        Explosion.containers = (self.updatable, self.drawable)
         Player.containers = (self.updatable, self.drawable)
         Heart.containers = (self.drawable, )
         Shot.containers = (self.shots, self.updatable, self.drawable)
