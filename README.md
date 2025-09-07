@@ -10,8 +10,9 @@ Below you'll find my development roadmap. Check back for updates as we blast thr
 - [x] **Add a scoring system**  
 - [x] **Implement multiple lives and respawning**  
     - [x] Display lives sprites
-    - [ ] Heart power-up  
-- [ ] **Add an explosion effect for the asteroids**
+    - [x] Add layering to have lives always visibles
+    - [ ] Add a +1 Life power-up  
+- [x] **Add an explosion effect for the asteroids**
     - [ ] Damaged player effect
     - [ ] Traveling shot effect
 - [ ] **Add acceleration to the player movement**  
@@ -20,7 +21,8 @@ Below you'll find my development roadmap. Check back for updates as we blast thr
 - [ ] **Create different weapon types**  
 - [x] **Make the asteroids lumpy instead of perfectly round**
     - [x] Asteroid sprites
-- [ ] **Make the ship have a triangular hit box instead of a circular one**  
+- [ ] **Make the ship have a triangular hit box instead of a circular one**
+    - [ ] Implement pygame's collision detection
 - [ ] **Add a shield power-up**  
 - [ ] **Add a speed power-up**  
 - [ ] **Add bombs that can be dropped**  
