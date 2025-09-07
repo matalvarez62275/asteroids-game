@@ -21,7 +21,7 @@ class Game:
         
         # Sprite groups
         self.updatable = pygame.sprite.Group()
-        self.drawable = pygame.sprite.Group()
+        self.drawable = pygame.sprite.LayeredUpdates()
         self.asteroids = pygame.sprite.Group()
         self.shots = pygame.sprite.Group()
 
@@ -109,11 +109,12 @@ class Game:
         self.screen.fill("black")
         
         if self.player.lives > 0:
-            for i, heart in enumerate(self.hearts):
-                heart.visible = i < self.player.lives 
             
             # All drawable sprites MUST have an 'image' attribute and a 'rect' attribute
             self.drawable.draw(self.screen)
+            
+            for i, heart in enumerate(self.hearts):
+                heart.visible = i < self.player.lives 
                 
             score_text = self.font_regular.render(f"Score: {self.score}", True, "green")
             self.screen.blit(score_text, (10, 10))

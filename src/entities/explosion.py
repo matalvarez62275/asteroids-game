@@ -4,7 +4,6 @@ from typing import Optional, Tuple
 from src.entities.imagesprite import ImageSprite
 
 class Explosion(ImageSprite):
-    containers: Optional[Tuple[pygame.sprite.Group, ...]] = None
     explosion_frames: list[pygame.Surface] = []
     
     def __init__(self, position: pygame.Vector2, radius: float):
