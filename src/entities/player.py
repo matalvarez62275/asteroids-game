@@ -9,7 +9,7 @@ class Player(CircleShape):
     
     def __init__(self, position: pygame.Vector2 = pygame.Vector2(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2)):
         if Player.player_image is None:
-            player_image = pygame.image.load("assets/ship.png").convert_alpha()
+            player_image = pygame.image.load("assets/main_ship/ship/bases/full_health.png").convert_alpha()
             Player.player_image = pygame.transform.scale(player_image, (int(PLAYER_RADIUS * 4), int(PLAYER_RADIUS * 4)))  # TODO: remove hardocoding
             
         super().__init__(position, PLAYER_RADIUS, Player.player_image)

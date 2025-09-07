@@ -8,7 +8,8 @@ class Shot(CircleShape):
     
     def __init__(self, position: pygame.Vector2, rotation: float):
         if Shot.shot_image is None:
-            shot_image = pygame.image.load("assets/shot.png").convert_alpha()
+            shot_sheet = pygame.image.load("assets/main_ship/projectiles/auto_cannon_bullet.png").convert_alpha()
+            shot_image = shot_sheet.subsurface(pygame.Rect(0, 0, 32, 32)).copy()
             Shot.shot_image = pygame.transform.scale(shot_image, (int(SHOT_RADIUS * 4), int(SHOT_RADIUS * 4)))
  
         super().__init__(position, SHOT_RADIUS, Shot.shot_image)

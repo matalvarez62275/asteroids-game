@@ -10,7 +10,7 @@ class Asteroid(CircleShape):
     def __init__(self, position: pygame.Vector2, radius: float):
         
         if Asteroid.asteroid_image is None:
-            Asteroid.asteroid_image = pygame.image.load("assets/asteroid_base.png").convert_alpha()
+            Asteroid.asteroid_image = pygame.image.load("assets/environment/asteroids/base.png").convert_alpha()
         
         super().__init__(position, radius, Asteroid.asteroid_image)
         self.image = pygame.transform.scale(Asteroid.asteroid_image,
