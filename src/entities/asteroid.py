@@ -24,9 +24,9 @@ class Asteroid(CircleShape):
         
     def split(self):
         self.kill()
-        Explosion(self.position.copy(), self.radius) # type: ignore
         
         if self.radius <= ASTEROID_MIN_RADIUS:
+            Explosion(self.position.copy(), self.radius) # type: ignore
             return
 
         random_angle = uniform(20, 50)
@@ -35,3 +35,4 @@ class Asteroid(CircleShape):
         child_asteroid_1.velocity = self.velocity.rotate(random_angle) * 1.2
         child_asteroid_2 = Asteroid(self.position.copy(), new_radius)   # type: ignore
         child_asteroid_2.velocity = self.velocity.rotate(-random_angle) * 1.2
+        Explosion(self.position.copy(), self.radius) # type: ignore
